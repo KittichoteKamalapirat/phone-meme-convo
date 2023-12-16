@@ -1,0 +1,16 @@
+{
+  "plugins": ["prettier-plugin-svelte"],
+  "pluginSearchDirs": ["."],
+  "overrides": [{ "files": "*.svelte", "options": { "parser": "svelte" } }],
+  "tabWidth": 2,
+  "singleQuote": true,
+  "semi": false,
+  "printWidth": 100,
+  "trailingComma": "all",
+  "endOfLine": "lf",
+  "bracketSpacing": true,
+  "arrowParens": "always",
+  "bracketSameLine": false,
+  "importOrder": ["^react$", "<THIRD_PARTY_MODULES>", "^@/.*", "^\\.+/.*"],
+  "importOrderSeparation": true
+}
