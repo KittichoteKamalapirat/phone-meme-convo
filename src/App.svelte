@@ -1,46 +1,23 @@
 <script lang="ts">
-  import Counter from './lib/Counter.svelte';
-
-
-  interface ChatBubble {
-    id: string
-    content: string
-    avatarUrl: string
-
-  }
-  let bubbles: ChatBubble[] = [
-    {   id:"1",content: 'foo' , avatarUrl: "https://avatars.githubusercontent.com/u/499270?v=4"},
-    {  id:"2",content: 'bar' , avatarUrl: "https://avatars.githubusercontent.com/u/499270?v=4"},
-    { id:"3", content: 'baz' , avatarUrl: "https://avatars.githubusercontent.com/u/499270?v=4"},
-  ];
-
-  const handleRemoveBubble = (id: string) => {
-    bubbles = bubbles.filter(bubble => bubble.id !== id)
-
-  }
+  import ChatBox from './components/ChatBox.svelte';
+  import Container from './components/Container.svelte';
+  import Controller from './components/Controller.svelte';
+  import Editor from './components/Editor.svelte';
 
 </script>
 
-<main>
-  <h1 class="text-red-500">Vite + Svelte</h1>
-  <div class="card">
-    <Counter />
-  </div>
-
-  {#each bubbles as bubble (bubble.id)}
-    <div class="card">
-      <div class="flex items-center">
-        <img class="w-10 h-10 rounded-full mr-4" src={bubble.avatarUrl} alt="Avatar of Jonathan Reinink">
-        <div class="text-sm">
-          <p class="text-gray-900 leading-none">{bubble.content}</p>
-        </div>
-
-        <button on:click={() => handleRemoveBubble(bubble.id)}>Delete</button>
-      </div>
+<main class="my-4">
+  <Container >
+  <div class="flex flex-col lg:flex-row gap-2 min-h-[95vh]">
+    <div class="flex-1 border-[1px] p-4 bg-neutral-100 rounded-md"><ChatBox/></div>
+    <div class="flex-1 border-[1px] p-4 bg-neutral-100 rounded-md flex flex-col gap-4">
+      <Editor class="grow"/>
+      <Controller/>
     </div>
-    {:else}
-    <p>Please add a conversation</p>
-  {/each}
+    
+  </div>
+</Container>
+
   
 </main>
 
