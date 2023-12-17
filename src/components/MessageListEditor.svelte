@@ -3,11 +3,15 @@
   import { store } from '../lib/store'
   import type { Message } from '../types/Mesasge'
 
+  const TAB_KEYCODE = 9
+  const ENTER_KEYCODE = 13
+
   let className: string = ''
   export { className as class }
   let classList = cn('bg-white p-4 rounded-md', className)
 
   let messages: Message[] = []
+  let isEditAvatars = messages.map(() => false)
 
   const handleRemovemessage = (id: string) => {
     const newMessages = messages.filter((message) => message.id !== id)
@@ -15,6 +19,10 @@
     store.update(({ messages, ...rest }) => ({ messages: newMessages, ...rest }))
   }
 
+  const handleToggleEditAvatar = (index: number) => {
+    // const newEditAvatars = [...isEditAvatars]
+    isEditAvatars[index] = !isEditAvatars[index]
+  }
   const moveUp = (id: string) => {
     const newMessages = [...messages]
 
@@ -37,6 +45,22 @@
     store.update(({ messages, ...rest }) => ({ messages: newMessages, ...rest }))
   }
 
+  const handleContent = (index: number, e: any) => {
+    const newMessages = [...messages]
+    newMessages[index].content = e.target.value
+    store.update(({ messages, ...rest }) => ({ messages: newMessages, ...rest }))
+  }
+  const handleAvatar = (index: number, e: any) => {
+    const newMessages = [...messages]
+    newMessages[index].avatarUrl = e.target.value
+    store.update(({ messages, ...rest }) => ({ messages: newMessages, ...rest }))
+  }
+
+  const handleKeyDownAvatar = (index: number, e: any) => {
+    if (e.keyCode === TAB_KEYCODE || e.keyCode === ENTER_KEYCODE) {
+      isEditAvatars[index] = false
+    }
+  }
   // effects
   store.subscribe((value) => {
     messages = value.messages
@@ -45,17 +69,37 @@
 
 <main class={classList}>
   <div class="flex flex-col gap-2">
-    {#each messages as message (message.id)}
+    {#each messages as message, index (message.id)}
       <div class="">
         <div class="flex items-center gap-4">
           <div class="flex w-full">
-            <img
-              class="w-10 h-10 rounded-full mr-4"
-              src={message.avatarUrl}
-              alt="Avatar of Jonathan Reinink"
-            />
-            <div class="text-gray-900 w-full rounded-md bg-neutral-200 px-2 py-1">
-              <span class="align-middle text-gray-900">{message.content}</span>
+            {#if isEditAvatars[index]}
+              <input
+                on:input={(e) => handleAvatar(index, e)}
+                on:keydown={(e) => handleKeyDownAvatar(index, e)}
+                class="align-middle border-[1px] border-neutral-300 rounded-md px-2 py-1 text-gray-900 {isEditAvatars[
+                  index
+                ]
+                  ? 'w-10'
+                  : 'w-full'}"
+              />
+            {:else}
+              <button on:click={() => handleToggleEditAvatar(index)}>
+                <img
+                  class="w-10 h-10 rounded-full mr-4"
+                  src={message.avatarUrl}
+                  alt="Avatar of Jonathan Reinink"
+                />
+              </button>
+            {/if}
+
+            <div class="text-gray-900 w-full rounded-mdpx-2 py-1">
+              <!-- <span class="align-middle text-gray-900">{message.content}</span> -->
+              <input
+                on:input={(e) => handleContent(index, e)}
+                value={message.content}
+                class="align-middle border-[1px] border-neutral-300 rounded-md px-2 py-1 text-gray-900 w-full"
+              />
             </div>
           </div>
 
