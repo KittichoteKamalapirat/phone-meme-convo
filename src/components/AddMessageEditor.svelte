@@ -26,7 +26,7 @@
 </script>
 
 <!-- Add new message input -->
-<div class="border-[1px] border-neutral-200 rounded-md p-4 mt-4">
+<div class="border-[1px] border-neutral-200 rounded-md p-4 mt-4 bg-white">
   <div class="flex flex-col">
     <label for="content">Content</label>
     <input

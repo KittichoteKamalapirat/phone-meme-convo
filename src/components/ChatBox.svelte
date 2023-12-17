@@ -13,7 +13,13 @@
   })
 </script>
 
-<main class="p-4 flex flex-col gap-4 rounded-md">
+<main class="flex flex-col gap-4 rounded-md">
+  <div class="border-b-[1px] border-neutral-900">
+    <span class="text-discord-foreground text-lg">
+      <span class="text-neutral-300">#</span> Channel Name</span
+    >
+  </div>
+
   {#each displayMessages as message (message.id)}
     <MessageBubble {message} />
   {:else}

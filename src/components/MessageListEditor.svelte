@@ -72,6 +72,7 @@
     {#each messages as message, index (message.id)}
       <div class="">
         <div class="flex items-center gap-4">
+          <span>{index + 1}.</span>
           <div class="flex w-full">
             {#if isEditAvatars[index]}
               <input
